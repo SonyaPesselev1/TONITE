@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import App from "./App";
 import { CartProvider } from "./state/CartContext";
 import { OrdersProvider } from "./state/OrdersContext";
@@ -9,9 +9,12 @@ import "./styles/global.css";
 import "./styles/components.css";
 import "./styles/screens.css";
 
+// Static hosts without SPA rewrites (a published preview build) need hash URLs.
+const Router = import.meta.env.VITE_ROUTER === "hash" ? HashRouter : BrowserRouter;
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
+    <Router>
       <ProfileProvider>
         <CartProvider>
           <OrdersProvider>
@@ -19,6 +22,6 @@ createRoot(document.getElementById("root")!).render(
           </OrdersProvider>
         </CartProvider>
       </ProfileProvider>
-    </BrowserRouter>
+    </Router>
   </StrictMode>,
 );
